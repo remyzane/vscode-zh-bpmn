@@ -9,7 +9,7 @@ import './样式.css';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 
 import BpmnColorPickerModule from 'bpmn-js-color-picker';
-// import 中文翻译 from '../i18n';
+import 中文翻译 from '../i18n';
 
 declare function acquireVsCodeApi(): any;
 
@@ -40,12 +40,17 @@ interface UpdateBody {
 
 const vscode: VSCodeAPI = acquireVsCodeApi();
 
+// 定义翻译模块
+const TranslateModule = {
+  translate: ['value', 中文翻译]
+};
+
 // 配置完整的模型器选项，包括所有必要的模块
 const modelerOptions: any = {
   container: '#canvas',
   additionalModules: [
     BpmnColorPickerModule,
-    // { translate: ['value', 中文翻译] }
+    TranslateModule
   ]
 };
 
