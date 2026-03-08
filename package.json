@@ -2,7 +2,7 @@
   "name": "vscode-zh-bpmn",
   "displayName": "BPMN 2.0 编辑器",
   "description": "一款符合中文使用习惯的；基于 bpmn-js（遵循 BPMN.io 规范）的 BPMN 编辑器",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "chinese",
   "license": "BSD-3-Clause",
   "engines": {

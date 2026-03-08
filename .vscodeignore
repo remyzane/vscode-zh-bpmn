@@ -1,6 +1,7 @@
 .vscode/**
 .vscode-test/**
 out/**
+!out/bpmn/**
 node_modules/**
 src/**
 .gitignore

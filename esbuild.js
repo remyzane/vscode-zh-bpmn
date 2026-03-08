@@ -24,7 +24,8 @@ const esbuildProblemMatcherPlugin = {
 };
 
 async function main() {
-	const ctx = await esbuild.context({
+	// Build the main extension
+	const extensionCtx = await esbuild.context({
 		entryPoints: [
 			'src/extension.ts'
 		],
@@ -42,11 +43,53 @@ async function main() {
 			esbuildProblemMatcherPlugin,
 		],
 	});
+
+	// Build the BPMN webview script
+	const bpmnCtx = await esbuild.context({
+		entryPoints: [
+			'src/bpmn/index.ts'
+		],
+		bundle: true,
+		format: 'iife', // IIFE format for browser scripts
+		minify: production,
+		sourcemap: !production,
+		sourcesContent: false,
+		platform: 'browser',
+		outfile: 'out/bpmn/index.js', // Direct output to the expected location
+		outbase: '.',
+		logLevel: 'silent',
+		plugins: [
+			/* add to the end of plugins array */
+			esbuildProblemMatcherPlugin,
+		],
+		loader: {
+			'.css': 'empty', // CSS is imported in the bundle, so we don't need to copy separately
+			'.png': 'copy',
+			'.jpg': 'copy',
+			'.jpeg': 'copy',
+			'.gif': 'copy',
+			'.svg': 'copy',
+			'.woff': 'copy',
+			'.woff2': 'copy',
+			'.ttf': 'copy',
+			'.eot': 'copy'
+		}
+	});
+
 	if (watch) {
-		await ctx.watch();
+		await Promise.all([
+			extensionCtx.watch(),
+			bpmnCtx.watch()
+		]);
 	} else {
-		await ctx.rebuild();
-		await ctx.dispose();
+		await Promise.all([
+			extensionCtx.rebuild(),
+			bpmnCtx.rebuild()
+		]);
+		await Promise.all([
+			extensionCtx.dispose(),
+			bpmnCtx.dispose()
+		]);
 	}
 }
 
