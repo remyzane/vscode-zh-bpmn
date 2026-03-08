@@ -10,41 +10,64 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 
 import BpmnColorPickerModule from 'bpmn-js-color-picker';
 
-/**
- * @type { import('vscode') }
- */
-const vscode = acquireVsCodeApi();
+declare function acquireVsCodeApi(): any;
 
-const modeler = new BpmnModeler({
+interface VSCodeAPI {
+  postMessage(message: any): void;
+}
+
+interface ImportDoneEvent {
+  error?: Error;
+  warnings: any[];
+}
+
+interface CanvasFocusChangedEvent {
+  focused: boolean;
+}
+
+interface ExtensionMessage {
+  type: string;
+  body?: any;
+  requestId?: string;
+}
+
+interface UpdateBody {
+  content?: string;
+  undo?: boolean;
+  redo?: boolean;
+}
+
+const vscode: VSCodeAPI = acquireVsCodeApi();
+
+const modelerOptions: any = {
   container: '#canvas',
   additionalModules: [
     BpmnColorPickerModule
   ]
-});
+};
 
-modeler.on('import.done', event => {
+const modeler = new BpmnModeler(modelerOptions);
+
+modeler.on('import.done', (event: ImportDoneEvent) => {
   return vscode.postMessage({
     type: 'import',
     error: event.error?.message,
-    warnings: event.warnings.map(warning => warning.message),
+    warnings: event.warnings.map((warning: any) => warning.message),
     idx: -1
   });
 });
 
 modeler.on('commandStack.changed', () => {
-
-  /**
-   * @type { import('diagram-js/lib/command/CommandStack').default }
-   */
-  const commandStack = modeler.get('commandStack');
+  const commandStack: any = modeler.get('commandStack');
+  const stackIdx = (commandStack as any)._stackIdx;
 
   return vscode.postMessage({
     type: 'change',
-    idx: commandStack._stackIdx
+    idx: stackIdx
   });
 });
 
-modeler.on('canvas.focus.changed', (event) => {
+modeler.on('canvas.focus.changed', (event: CanvasFocusChangedEvent) => {
   return vscode.postMessage({
     type: 'canvas-focus-change',
     value: event.focused
@@ -53,40 +76,46 @@ modeler.on('canvas.focus.changed', (event) => {
 
 
 // handle messages from the extension
-window.addEventListener('message', async (event) => {
+window.addEventListener('message', async (event: MessageEvent) => {
+
+  const message: ExtensionMessage = event.data;
 
   const {
     type,
     body,
     requestId
-  } = event.data;
+  } = message;
 
   switch (type) {
     case 'init':
-      if (!body.content) {
+      if (!body?.content) {
         return modeler.createDiagram();
       } else {
         return modeler.importXML(body.content);
       }
 
     case 'update': {
-      if (body.content) {
-        return modeler.importXML(body.content);
+      const updateBody: UpdateBody = body;
+
+      if (updateBody.content) {
+        return modeler.importXML(updateBody.content);
       }
 
-      if (body.undo) {
-        return modeler.get('commandStack').undo();
+      if (updateBody.undo) {
+        const commandStack: any = modeler.get('commandStack');
+        return (commandStack as any).undo();
       }
 
-      if (body.redo) {
-        return modeler.get('commandStack').redo();
+      if (updateBody.redo) {
+        const commandStack: any = modeler.get('commandStack');
+        return (commandStack as any).redo();
       }
 
       break;
     }
 
     case 'getText':
-      return modeler.saveXML({ format: true }).then(({ xml }) => {
+      return (modeler.saveXML({ format: true }) as Promise<{ xml: string }>).then(({ xml }) => {
         return vscode.postMessage({
           type: 'response',
           requestId,
@@ -95,7 +124,8 @@ window.addEventListener('message', async (event) => {
       });
 
     case 'focusCanvas':
-      modeler.get('canvas').focus();
+      const canvas: any = modeler.get('canvas');
+      (canvas as any).focus();
       return;
   }
 });
