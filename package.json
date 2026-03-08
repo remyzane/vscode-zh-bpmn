@@ -1,0 +1,80 @@
+{
+  "name": "vscode-zh-bpmn",
+  "displayName": "BPMN 2.0 编辑器",
+  "description": "一款符合中文使用习惯的；基于 bpmn-js（遵循 BPMN.io 规范）的 BPMN 编辑器",
+  "version": "0.0.2",
+  "publisher": "chinese",
+  "license": "BSD-3-Clause",
+  "engines": {
+    "vscode": "^1.79.2"
+  },
+  "icon": "media/bpmn_logo.png",
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "bpmn",
+    "bpmn编辑器",
+    "bpmn 编辑器",
+    "bpmn中文编辑器",
+    "bpmn 中文编辑器",
+    "中文",
+    "中文bpmn",
+    "bpmn中文",
+    "中文 bpmn",
+    "bpmn 中文"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "chinese.bpmnEditor",
+        "displayName": "BPMN 编辑器",
+        "selector": [
+          {
+            "filenamePattern": "*.bpmn"
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/remyzane/vscode-zh-bpmn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/remyzane/vscode-zh-bpmn/issues"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "1.79.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "esbuild": "^0.27.1",
+    "eslint": "^9.39.1",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
+  },
+  "dependencies": {
+    "bpmn-js": "^18.13.1",
+    "bpmn-js-color-picker": "^0.7.2"
+  }
+}
