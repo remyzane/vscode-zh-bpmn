@@ -5,11 +5,8 @@ import 'bpmn-js/dist/assets/bpmn-js.css';
 import 'bpmn-js/dist/assets/diagram-js.css';
 
 import './样式.css';
+import { modeler } from './内容';
 
-import BpmnModeler from 'bpmn-js/lib/Modeler';
-
-import BpmnColorPickerModule from 'bpmn-js-color-picker';
-import 中文翻译 from '../i18n';
 
 declare function acquireVsCodeApi(): any;
 
@@ -40,22 +37,6 @@ interface UpdateBody {
 
 const vscode: VSCodeAPI = acquireVsCodeApi();
 
-// 定义翻译模块
-const TranslateModule = {
-  translate: ['value', 中文翻译]
-};
-
-// 配置完整的模型器选项，包括所有必要的模块
-const modelerOptions: any = {
-  container: '#canvas',
-  additionalModules: [
-    BpmnColorPickerModule,
-    TranslateModule
-  ]
-};
-
-const modeler = new BpmnModeler(modelerOptions);
-
 modeler.on('import.done', (event: ImportDoneEvent) => {
   return vscode.postMessage({
     type: 'import',
@@ -81,7 +62,6 @@ modeler.on('canvas.focus.changed', (event: CanvasFocusChangedEvent) => {
     value: event.focused
   });
 });
-
 
 // handle messages from the extension
 window.addEventListener('message', async (event: MessageEvent) => {
