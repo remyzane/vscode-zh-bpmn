@@ -1,5 +1,5 @@
 
-const 词典 = {
+const 词典: { [key: string]: string } = {
     // bpmn-js-i18n（2025-04-23 56e5ba3） https://github.com/bpmn-io/bpmn-js-i18n/blob/main/translations/zn.js
     "Activate create/remove space tool": "启动创建/删除空间工具",
     "Activate global connect tool": "启动全局连接工具",
