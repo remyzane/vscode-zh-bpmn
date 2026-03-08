@@ -193,9 +193,12 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
      */
     private getHtmlForWebview(webview: vsc.Webview): string {
 
-        // local path to script for the webview
+        // local path to script and css for the webview
         const scriptUri = webview.asWebviewUri(vsc.Uri.joinPath(
             this._context.extensionUri, 'out', 'bpmn', 'index.js'));
+
+        const cssUri = webview.asWebviewUri(vsc.Uri.joinPath(
+            this._context.extensionUri, 'out', 'bpmn', 'index.css'));
 
         const styleResetUri = webview.asWebviewUri(vsc.Uri.joinPath(
             this._context.extensionUri, 'media', 'reset.css'));
@@ -222,6 +225,7 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
 
         <link href="${styleResetUri}" rel="stylesheet" />
         <link href="${styleVSCodeUri}" rel="stylesheet" />
+        <link href="${cssUri}" rel="stylesheet" />
 
         <title>BPMN 编辑器</title>
       </head>

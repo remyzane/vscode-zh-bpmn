@@ -63,7 +63,7 @@ async function main() {
 			esbuildProblemMatcherPlugin,
 		],
 		loader: {
-			'.css': 'empty', // CSS is imported in the bundle, so we don't need to copy separately
+			'.css': 'css', // Extract CSS to separate files
 			'.png': 'copy',
 			'.jpg': 'copy',
 			'.jpeg': 'copy',

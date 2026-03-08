@@ -39,6 +39,7 @@ interface UpdateBody {
 
 const vscode: VSCodeAPI = acquireVsCodeApi();
 
+// 配置完整的模型器选项，包括所有必要的模块
 const modelerOptions: any = {
   container: '#canvas',
   additionalModules: [
