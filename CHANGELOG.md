@@ -1,9 +1,5 @@
-# Change Log
+# 版本说明
 
-All notable changes to the "vscode-zh-bpmn" extension will be documented in this file.
+## v0.1 - 2026-03-08
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+- 💥 重构：完成 TS 版本重构

@@ -9,6 +9,7 @@ import './样式.css';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 
 import BpmnColorPickerModule from 'bpmn-js-color-picker';
+// import 中文翻译 from '../i18n';
 
 declare function acquireVsCodeApi(): any;
 
@@ -43,7 +44,8 @@ const vscode: VSCodeAPI = acquireVsCodeApi();
 const modelerOptions: any = {
   container: '#canvas',
   additionalModules: [
-    BpmnColorPickerModule
+    BpmnColorPickerModule,
+    // { translate: ['value', 中文翻译] }
   ]
 };
 
