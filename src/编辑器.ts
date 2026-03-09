@@ -1,4 +1,4 @@
-import * as vsc from './vsc/index';
+import * as vsc from './vsc';
 import { BPMN文档, BPMN文档集合类 } from './文档';
 
 /**

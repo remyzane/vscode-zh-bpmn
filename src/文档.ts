@@ -1,4 +1,4 @@
-import * as vsc from './vsc/index';
+import * as vsc from './vsc';
 import { 需手工释放的文档 } from './vsc/文档基类';
 
 interface BPMN文档提供器 {
