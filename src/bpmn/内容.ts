@@ -4,31 +4,33 @@ import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
 import 中文翻译 from '../i18n';
 
 
-function 默认宽度高度(element: any) {
-    const bo = element.businessObject;
-
-    if (bo?.$instanceOf('bpmn:Task')) {
-        element.width = 50;
-        element.height = 40;
-    } else if (
-        bo?.$instanceOf('bpmn:Event')
-    ) {
-        element.width = 24;
-        element.height = 24;
-    } else if (
-        bo?.$instanceOf('bpmn:Gateway') ||
-        bo?.$instanceOf('bpmn:inclusiveGateway') ||
-        bo?.$instanceOf('bpmn:exclusiveGateway')
-    ) {
-        element.width = 36;
-        element.height = 36;
+function 设置宽度高度(element: any, 设为: (width: number, height: number) => void) {
+    if (element.type.endsWith('Task') || element.type === 'bpmn:CallActivity') {
+        return 设为(75, 70);
     }
+    if (element.type.endsWith('SubProcess')) {
+        if (!element.di.isExpanded) {
+            return 设为(75, 70); // 只限可展开的子流程
+        }
+    }
+    if (element.type.endsWith('Event')) {
+        return 设为(32, 32);
+    }
+    if (element.type.endsWith('Gateway')) {
+        return 设为(40, 40);
+    }
+    if (element.type === 'bpmn:DataObjectReference') {
+        return 设为(24, 34);
+    }
+    if (element.type === 'bpmn:DataStoreReference') {
+        return 设为(44, 36);
+    }
+    console.log('无需设置宽度和高度的 element：', element);
 }
 
 class CustomElementFactory extends ElementFactory {
     create(type: string, attrs: Record<string, any> = {}): any {
         let element: any;
-
         // 根据 type 字符串，显式调用对应重载
         if (type === 'shape') {
             element = super.create('shape', attrs);
@@ -42,33 +44,16 @@ class CustomElementFactory extends ElementFactory {
             // fallback（理论上不会发生）
             element = super.create(type as any, attrs);
         }
-
         // 修改尺寸（仅对 shape）
         if (type === 'shape' && !attrs.width && !attrs.height) {
-            const bo = element.businessObject;
-
-            if (bo?.$instanceOf('bpmn:Task')) {
-                element.width = 50;
-                element.height = 40;
-            } else if (
-                bo?.$instanceOf('bpmn:Event')
-            ) {
-                element.width = 24;
-                element.height = 24;
-            } else if (
-                bo?.$instanceOf('bpmn:Gateway') ||
-                bo?.$instanceOf('bpmn:inclusiveGateway') ||
-                bo?.$instanceOf('bpmn:exclusiveGateway')
-            ) {
-                element.width = 36;
-                element.height = 36;
-            }
+            设置宽度高度(element, (width: number, height: number) => {
+                element.width = width;
+                element.height = height;
+            });
         }
-
         return element;
     }
 }
-
 
 // 新增一个模块，用于监听元素变更并修正尺寸
 class ElementResizer {
@@ -77,43 +62,18 @@ class ElementResizer {
     constructor(private eventBus: any, private modeling: any) {
         this.eventBus.on('element.changed', (event: any) => {
             const { element } = event;
-            const bo = element.businessObject;
-
-            if (!bo || !element.width || !element.height) { return; }
-
-            // 判断是否是需要特殊尺寸的 BPMN 类型
-            let newWidth: number | undefined;
-            let newHeight: number | undefined;
-
-            if (bo.$instanceOf('bpmn:Task')) {
-                newWidth = 50;
-                newHeight = 40;
-            } else if (bo.$instanceOf('bpmn:Event')) {
-                newWidth = 24;
-                newHeight = 24;
-            } else if (
-                bo.$instanceOf('bpmn:Gateway') ||
-                bo.$instanceOf('bpmn:InclusiveGateway') ||
-                bo.$instanceOf('bpmn:ExclusiveGateway') ||
-                bo.$instanceOf('bpmn:ParallelGateway')
-            ) {
-                newWidth = 36;
-                newHeight = 36;
-            }
-
-            // 如果当前尺寸不符合预期，就更新
-            if (
-                newWidth !== undefined &&
-                (element.width !== newWidth || element.height !== newHeight)
-            ) {
-                // 使用 modeling.resizeShape 安全地调整尺寸（会触发布局更新）
-                this.modeling.resizeShape(element, {
-                    x: element.x,
-                    y: element.y,
-                    width: newWidth,
-                    height: newHeight
-                });
-            }
+            if (!element.width || !element.height) { return; }
+            设置宽度高度(element, (width: number, height: number) => {
+                if (element.width !== width || element.height !== height) {
+                    // 使用 modeling.resizeShape 安全地调整尺寸（会触发布局更新）
+                    this.modeling.resizeShape(element, {
+                        x: element.x,
+                        y: element.y,
+                        width,
+                        height
+                    });
+                }
+            });
         });
     }
 }
@@ -141,19 +101,14 @@ const modelerOptions: any = {
 };
 
 export const modeler = new BpmnModeler(modelerOptions);
+
 modeler.on('import.done', () => {
     const canvas = modeler.get('canvas');
-    // 稍微延时执行，确保视图渲染完毕
-    setTimeout(() => {
-        canvas.zoom(1.3);
-    }, 100);
-});
-
-// 在 modeler 初始化后（例如 import.done 或 createDiagram 后）
-modeler.on('import.done', () => {
-    const eventBus = modeler.get('eventBus');
-    const modeling = modeler.get('modeling');
-    eventBus.on('commandStack.changed', (e: any) => {
-        console.log('Command executed', e);
+    const rootElement = canvas.getRootElement();
+    requestAnimationFrame(() => {
+        // 先放大到 1.2 倍（默认以视口中心缩放）
+        canvas.zoom(1.2);
+        // 再将根元素（整个流程图）居中
+        canvas.center(rootElement);
     });
 });
