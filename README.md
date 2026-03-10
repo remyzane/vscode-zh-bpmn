@@ -4,7 +4,7 @@
 - 对中文进行深度优化
 - 基于 bpmn-js 遵循 BPMN.io 规范
 
-## 特性
+## 中文优化
 
 - 界面汉化
 - 字体优化（中文优先）
@@ -13,7 +13,7 @@
 
 ## 效果图
 
-[样例](https://gitee.com/remyzane/vscode-zh-bpmn/tree/main/样例) 和 [效果图](https://gitee.com/remyzane/vscode-zh-bpmn/tree/main/效果图)
+[样例](https://gitee.com/remyzane/vscode-zh-bpmn/tree/main/样例) 和 [效果图](https://gitee.com/remyzane/vscode-zh-bpmn/tree/main/效果图)（中文菜单、简单流程、复杂流程）
 
 ![](效果图/中文菜单.png)
 ![](效果图/简单流程.png)
