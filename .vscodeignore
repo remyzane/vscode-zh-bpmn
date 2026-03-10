@@ -13,3 +13,7 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+
+样例/**
+效果图/**
+publish.sh
