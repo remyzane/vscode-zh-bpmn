@@ -4,9 +4,11 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 import 'bpmn-js/dist/assets/bpmn-js.css';
 import 'bpmn-js/dist/assets/diagram-js.css';
 
-import './样式.css';
+import { handleMacOsKeyboard } from './macos-keyboard';
 import { modeler } from './内容';
+import './样式.css';
 
+handleMacOsKeyboard();
 
 declare function acquireVsCodeApi(): any;
 
