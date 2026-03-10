@@ -6,26 +6,14 @@ import 中文翻译 from '../i18n';
 
 function 设置宽度高度(element: any, 设为: (width: number, height: number) => void) {
     if (element.type.endsWith('Task') || element.type === 'bpmn:CallActivity') {
-        return 设为(75, 70);
+        return 设为(85, 73);
     }
     if (element.type.endsWith('SubProcess')) {
         if (!element.di.isExpanded) {
-            return 设为(75, 70); // 只限可展开的子流程
+            return 设为(85, 73); // 只限可展开的子流程
         }
     }
-    if (element.type.endsWith('Event')) {
-        return 设为(32, 32);
-    }
-    if (element.type.endsWith('Gateway')) {
-        return 设为(40, 40);
-    }
-    if (element.type === 'bpmn:DataObjectReference') {
-        return 设为(24, 34);
-    }
-    if (element.type === 'bpmn:DataStoreReference') {
-        return 设为(44, 36);
-    }
-    console.log('无需设置宽度和高度的 element：', element);
+    // console.log('无需设置宽度和高度的 element：', element);
 }
 
 class CustomElementFactory extends ElementFactory {
@@ -86,6 +74,11 @@ export const 中文翻译模块 = {
 // 配置完整的模型器选项，包括所有必要的模块
 const modelerOptions: any = {
     container: '#canvas',
+    textRenderer: {
+        defaultStyle: {
+            fontSize: 14,
+        },
+    },
     additionalModules: [
         BpmnColorPickerModule,
         中文翻译模块,
@@ -96,19 +89,8 @@ const modelerOptions: any = {
         {
             __init__: ['elementResizer'],
             elementResizer: ['type', ElementResizer]
-        }
+        },
     ]
 };
 
 export const modeler = new BpmnModeler(modelerOptions);
-
-modeler.on('import.done', () => {
-    const canvas = modeler.get('canvas');
-    const rootElement = canvas.getRootElement();
-    requestAnimationFrame(() => {
-        // 先放大到 1.2 倍（默认以视口中心缩放）
-        canvas.zoom(1.2);
-        // 再将根元素（整个流程图）居中
-        canvas.center(rootElement);
-    });
-});
