@@ -1,8 +1,8 @@
 {
   "name": "vscode-zh-bpmn",
   "displayName": "BPMN 编辑器",
-  "description": "一款中文用户优先的 BPMN 编辑器",
-  "version": "0.2.2",
+  "description": "面向中文用户的 BPMN 编辑器，深度优化中文化体验，遵循 BPMN 2.0 规范",
+  "version": "0.2.3",
   "publisher": "chinese",
   "license": "BSD-3-Clause",
   "engines": {
