@@ -65,58 +65,52 @@ g.djs-element[data-element-id^="Lane_"] .djs-label {
   font-weight: 600 !important;  /* Windows 上 500 和 400 完全一样 */
 }
 
+
 /* 缩放控件样式 */
-.io-zoom-controls {
+.zh-zoom-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
   opacity: 0.8;
 }
-
-.io-zoom-controls:hover {
+.zh-zoom-controls:hover {
   opacity: 1;
 }
-
-.io-control button {
+.zh-zoom-container {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.zh-zoom-btn {
   color: #000;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 40px;
   padding: 0;
   border: none;
   background: transparent;
   box-sizing: border-box;
+  font-size: 18px;
+  font-weight: bold;
 }
-
-.io-control button:hover {
+.zh-zoom-btn:hover {
   background: #f6f6f6;
 }
-
-.io-control button:active {
+.zh-zoom-btn:active {
   background: #e9e9e9;
 }
-
-.io-control hr {
-  margin: 0;
-  border: none;
-  height: 1px;
-  background-color: #eee;
+.zh-zoom-minus {
+  font-size: 32px;
+  font-weight: normal;
 }
-
-.io-control-list li {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.io-zoom-reset .icon-size-reset {
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.io-zoom-reset .icon-plus,
-.io-zoom-reset .icon-minus {
-  font-size: 16px;
-  font-weight: bold;
+.zh-zoom-plus {}
+.zh-zoom-reset {
+  font-size: 13px;
 }
