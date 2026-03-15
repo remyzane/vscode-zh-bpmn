@@ -3,7 +3,7 @@
  */
 import * as vsc2 from 'vscode';
 // prettier-ignore
-export { CustomEditorProvider, Webview, WebviewPanel, window, workspace } from 'vscode';
+export { CustomEditorProvider, env, Webview, WebviewPanel, window, workspace } from 'vscode';
 // prettier-ignore
 export { CustomDocument, CustomDocumentBackup, CustomDocumentBackupContext, CustomDocumentEditEvent, TextDocument } from 'vscode';
 // prettier-ignore

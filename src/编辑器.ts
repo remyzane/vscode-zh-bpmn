@@ -1,3 +1,4 @@
+import * as bpm from './bpmn';
 import * as vsc from './vsc';
 import { BPMN文档, BPMN文档集合类 } from './文档';
 
@@ -118,7 +119,7 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
         };
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
 
-        webviewPanel.webview.onDidReceiveMessage(e => this.onMessage(document, e));
+        webviewPanel.webview.onDidReceiveMessage(e => this.onMessage(webviewPanel, document, e));
 
         webviewPanel.webview.onDidReceiveMessage(e => {
             if (e.type === 'ready') {
@@ -251,7 +252,7 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
         panel.webview.postMessage({ type, body });
     }
 
-    private onMessage(document: BPMN文档, message: any) {
+    private onMessage(webviewPanel: vsc.WebviewPanel, document: BPMN文档, message: any) {
         switch (message.type) {
             case 'change':
                 return document.makeEdit(message as vsc.编辑事件信息体);
@@ -276,7 +277,41 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
             case 'canvas-focus-change':
                 vsc.commands.executeCommand('setContext', 'chinese.bpmnEditor.canvasFocused', message.value);
                 return;
+
+            case "GetClipboardCommand":
+                getClipboard(webviewPanel).then();
+                break;
+            case "SetClipboardCommand":
+                setClipboard(message).then();
+                break;
         }
+    }
+}
+
+async function getClipboard(webviewPanel: vsc.WebviewPanel) {
+    try {
+        const text = await vsc.env.clipboard.readText();
+        // this.editorStore.postMessage(editorId, new bpm.ClipboardQuery(text))
+        const message = new bpm.ClipboardQuery(text);
+
+        if (!webviewPanel.options.retainContextWhenHidden && !webviewPanel.visible) {
+            throw new Error("The active editor is hidden.");
+        }
+        if (! await webviewPanel.webview.postMessage(message)) {
+            throw new Error("Failed to send message to the webview.");
+        }
+    } catch (error) {
+        console.error(error);
+        vsc.输出(`${error}`);
+    }
+}
+
+async function setClipboard(message: any) {
+    try {
+        await vsc.env.clipboard.writeText((message as bpm.SetClipboardCommand).text);
+    } catch (error) {
+        console.error(error);
+        vsc.输出(`${error}`);
     }
 }
 

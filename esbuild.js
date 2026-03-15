@@ -68,11 +68,11 @@ async function main() {
 			'.jpg': 'copy',
 			'.jpeg': 'copy',
 			'.gif': 'copy',
-			'.svg': 'copy',
+			// '.svg': 'copy',
 			'.woff': 'copy',
 			'.woff2': 'copy',
 			'.ttf': 'copy',
-			'.eot': 'copy'
+			// '.eot': 'copy'
 		}
 	});
 
