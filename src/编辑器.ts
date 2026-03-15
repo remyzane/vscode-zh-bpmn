@@ -276,15 +276,6 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
             case 'canvas-focus-change':
                 vsc.commands.executeCommand('setContext', 'chinese.bpmnEditor.canvasFocused', message.value);
                 return;
-
-            // case 'copySuccess':
-            //     vsc.window.showInformationMessage('BPMN 流程图复制成功');
-            //     return;
-
-            // case 'copyFail':
-            //     vsc.window.showErrorMessage(`复制失败：${message.error}`);
-            //     return;
-
         }
     }
 }
