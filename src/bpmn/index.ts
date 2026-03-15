@@ -75,25 +75,18 @@ modeler.on('canvas.focus.changed', (event: CanvasFocusChangedEvent) => {
 
 // handle messages from the extension
 window.addEventListener('message', async (event: MessageEvent) => {
-
   const message: ExtensionMessage = event.data;
 
-  const {
-    type,
-    body,
-    requestId
-  } = message;
-
-  switch (type) {
+  switch (message.type) {
     case 'init':
-      if (!body?.content) {
+      if (!message.body?.content) {
         return modeler.createDiagram();
       } else {
-        return modeler.importXML(body.content);
+        return modeler.importXML(message.body.content);
       }
 
     case 'update': {
-      const updateBody: UpdateBody = body;
+      const updateBody: UpdateBody = message.body;
 
       if (updateBody.content) {
         return modeler.importXML(updateBody.content);
@@ -116,7 +109,7 @@ window.addEventListener('message', async (event: MessageEvent) => {
       return (modeler.saveXML({ format: true }) as Promise<{ xml: string }>).then(({ xml }) => {
         return vsc_api.postMessage({
           type: 'response',
-          requestId,
+          requestId: message.requestId,
           body: xml
         });
       });
@@ -126,6 +119,9 @@ window.addEventListener('message', async (event: MessageEvent) => {
       (canvas as any).focus();
       return;
 
+    case 'ClipboardQuery':
+      clipboardResolver.done(message as ClipboardQuery);
+      return;
   }
 });
 
@@ -137,11 +133,9 @@ let clipboardResolver = createResolver<ClipboardQuery>();
 const CLIP_PREFIX = "bpmn-js-clip----";
 
 const requestClipboard = async () => {
-  log('requestClipboard');
   clipboardResolver = createResolver<ClipboardQuery>();
   vsc_api.postMessage(new GetClipboardCommand());
   const q = await clipboardResolver.wait();
-  log('clipboard', q);
   return q?.text ?? "";
 };
 const writeClipboard = (text: any) => vsc_api.postMessage(new SetClipboardCommand(text));
@@ -156,16 +150,10 @@ eventBus.on("copyPaste.elementsCopied", 2051, (context: any) => {
 
 // ── Paste interceptor ────────────────────────────────────────────
 eventBus.on("copyPaste.pasteElements", 2051, (context: any) => {
-  log('pasteElements', context);
   if (context.tree) {
     return;
   }
 
-  // Snapshot context NOW, before `return false` calls preventDefault()
-  // which sets `defaultPrevented: true` on the same object.  If we spread
-  // `context` asynchronously after that, the new pasteEvent inherits
-  // `defaultPrevented: true` and CopyPaste.paste() sees canPaste===false,
-  // silently aborting before any elements are created.
   const contextSnapshot = { ...context };
 
   requestClipboard().then((text: any) => {
