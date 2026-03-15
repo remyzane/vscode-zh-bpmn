@@ -9,6 +9,14 @@ import { ClipboardQuery, createResolver, GetClipboardCommand, SetClipboardComman
 import { modeler } from './内容';
 import './样式.css';
 
+/** bpmn-js 事件内的 console 的输出，必须通过 Webview 开发者工具查看：
+    按下快捷键： Ctrl/Cmd + Shift + P
+    输入命令：Developer: Open Webview Developer Tools (开发人员: 打开 Webview 开发者工具)。
+*/
+export function log(message?: any, ...optionalParams: any[]) {
+  console.log(`[${new Date().toLocaleString()}] ${message}`, ...optionalParams);
+}
+
 handleMacOsKeyboard();
 
 interface VSCodeAPI {
@@ -129,9 +137,11 @@ let clipboardResolver = createResolver<ClipboardQuery>();
 const CLIP_PREFIX = "bpmn-js-clip----";
 
 const requestClipboard = async () => {
+  log('requestClipboard');
   clipboardResolver = createResolver<ClipboardQuery>();
   vsc_api.postMessage(new GetClipboardCommand());
   const q = await clipboardResolver.wait();
+  log('clipboard', q);
   return q?.text ?? "";
 };
 const writeClipboard = (text: any) => vsc_api.postMessage(new SetClipboardCommand(text));
@@ -146,6 +156,7 @@ eventBus.on("copyPaste.elementsCopied", 2051, (context: any) => {
 
 // ── Paste interceptor ────────────────────────────────────────────
 eventBus.on("copyPaste.pasteElements", 2051, (context: any) => {
+  log('pasteElements', context);
   if (context.tree) {
     return;
   }
@@ -158,6 +169,7 @@ eventBus.on("copyPaste.pasteElements", 2051, (context: any) => {
   const contextSnapshot = { ...context };
 
   requestClipboard().then((text: any) => {
+    log('requestClipboard result', text);
     if (!text || !text.startsWith(CLIP_PREFIX)) {
       return;
     }
