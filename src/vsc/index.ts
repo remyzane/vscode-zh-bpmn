@@ -1,9 +1,12 @@
-/** VSCode 接口封装 */
+/**
+ * VSCode 接口封装
+ */
 import * as vsc2 from 'vscode';
-// import { 语言基类, 语言配置表, 通用语言实现, 锚点配置T } from './语言';
-
-export { window, workspace, Webview, WebviewPanel, CustomEditorProvider } from 'vscode';
-export { CustomDocument, CustomDocumentBackup, CustomDocumentEditEvent, CustomDocumentBackupContext, TextDocument } from 'vscode';
+// prettier-ignore
+export { CustomEditorProvider, Webview, WebviewPanel, window, workspace } from 'vscode';
+// prettier-ignore
+export { CustomDocument, CustomDocumentBackup, CustomDocumentBackupContext, CustomDocumentEditEvent, TextDocument } from 'vscode';
+// prettier-ignore
 export { CancellationToken, commands, Disposable, EventEmitter, ExtensionContext, TabInputText, Uri } from 'vscode';
 
 const outputChannel = vsc2.window.createOutputChannel('BPMN 编辑器');
