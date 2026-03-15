@@ -8,7 +8,6 @@ import { handleMacOsKeyboard } from './macos-keyboard';
 import { ClipboardQuery, createResolver, GetClipboardCommand, SetClipboardCommand } from './utils';
 import { modeler } from './内容';
 import './样式.css';
-export { ClipboardQuery, createResolver, GetClipboardCommand, SetClipboardCommand };
 
 handleMacOsKeyboard();
 

@@ -1,4 +1,5 @@
 import BpmnColorPickerModule from 'bpmn-js-color-picker';
+import NativeCopyPasteModule from 'bpmn-js-native-copy-paste';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import ElementFactory from 'bpmn-js/lib/features/modeling/ElementFactory';
 import 中文翻译 from '../i18n';
@@ -82,6 +83,7 @@ const modelerOptions: any = {
     additionalModules: [
         BpmnColorPickerModule,
         中文翻译模块,
+        NativeCopyPasteModule,
         {
             __init__: ['elementFactory'],
             elementFactory: ['type', CustomElementFactory]

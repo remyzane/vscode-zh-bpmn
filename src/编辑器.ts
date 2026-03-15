@@ -1,4 +1,5 @@
-import * as bpm from './bpmn';
+
+import { ClipboardQuery, SetClipboardCommand } from './bpmn/utils';
 import * as vsc from './vsc';
 import { BPMN文档, BPMN文档集合类 } from './文档';
 
@@ -291,8 +292,7 @@ export class BPMN编辑器 implements vsc.CustomEditorProvider<BPMN文档> {
 async function getClipboard(webviewPanel: vsc.WebviewPanel) {
     try {
         const text = await vsc.env.clipboard.readText();
-        // this.editorStore.postMessage(editorId, new bpm.ClipboardQuery(text))
-        const message = new bpm.ClipboardQuery(text);
+        const message = new ClipboardQuery(text);
 
         if (!webviewPanel.options.retainContextWhenHidden && !webviewPanel.visible) {
             throw new Error("The active editor is hidden.");
@@ -308,7 +308,7 @@ async function getClipboard(webviewPanel: vsc.WebviewPanel) {
 
 async function setClipboard(message: any) {
     try {
-        await vsc.env.clipboard.writeText((message as bpm.SetClipboardCommand).text);
+        await vsc.env.clipboard.writeText((message as SetClipboardCommand).text);
     } catch (error) {
         console.error(error);
         vsc.输出(`${error}`);

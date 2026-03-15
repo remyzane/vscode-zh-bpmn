@@ -17,6 +17,12 @@ declare module '*.css' {
 
 declare function acquireVsCodeApi(): any;
 
+declare module 'bpmn-js-native-copy-paste' {
+    // 添加模块的类型定义，如果模块没有明确的接口可以简化为:
+    const module: any;
+    export default module;
+}
+
 declare module "bpmn-js-native-copy-paste/lib/PasteUtil.js" {
     export function createReviver(moddle: any): (key: string, value: any) => any;
 }
