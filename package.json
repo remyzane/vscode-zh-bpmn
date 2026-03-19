@@ -76,6 +76,8 @@
   "dependencies": {
     "bpmn-js": "^18.13.1",
     "bpmn-js-color-picker": "^0.7.2",
-    "bpmn-js-native-copy-paste": "^0.3.0"
+    "bpmn-js-native-copy-paste": "^0.3.0",
+    "inherits-browser": "^0.1.0",
+    "min-dash": "^5.0.0"
   }
 }

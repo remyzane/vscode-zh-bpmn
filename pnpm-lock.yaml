@@ -17,6 +17,12 @@ importers:
       bpmn-js-native-copy-paste:
         specifier: ^0.3.0
         version: 0.3.0(bpmn-js@18.13.1)
+      inherits-browser:
+        specifier: ^0.1.0
+        version: 0.1.0
+      min-dash:
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@types/mocha':
         specifier: ^10.0.10
