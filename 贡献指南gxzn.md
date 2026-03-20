@@ -10,10 +10,21 @@ bpmn-js 事件内的 console 的输出，必须通过 Webview 开发者工具查
 ### 初始化环境
 
 ```bash
-cd vscode-zh-completion
+
+git clone https://github.com/remyzane/bpmn-js.git
+
+cd bpmn-js
+
+git checkout chinese
+
+pn link
+
+cd vscode-zh-bpmn
 
 # 安装依赖包
-npm install
+pn install
+
+pn link bpmn-js
 ```
 
 ### 调试插件

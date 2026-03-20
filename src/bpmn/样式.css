@@ -33,30 +33,9 @@ body {
   display: none;
 }
 
-.djs-label,
-.djs-text,
-.bpp-text-annotation-content {
-  font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK SC", "Noto Sans CJK TC", "WenQuanYi Micro Hei", sans-serif !important;
-  font-size: 14px !important;
-}
-
-/*任务*/
-g.djs-element[data-element-id^="Activity_"] .djs-label {
-}
-
-/* 网关 */
-g.djs-element[data-element-id^="Gateway_"][data-element-id$="_label"] .djs-label {
-  font-size: 13px !important;
-}
-
 /* 事件 */
 g.djs-element[data-element-id^="Event_"][data-element-id$="_label"] .djs-label {
   font-size: 12px !important;
-}
-
-/* 连接线 */
-g.djs-element[data-element-id^="Flow_"][data-element-id$="_label"] .djs-label {
-  font-size: 13px !important;
 }
 
 /* 泳池、泳道 */
