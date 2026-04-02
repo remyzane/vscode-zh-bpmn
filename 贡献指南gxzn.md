@@ -10,21 +10,19 @@ bpmn-js 事件内的 console 的输出，必须通过 Webview 开发者工具查
 ### 初始化环境
 
 ```bash
+# 准备代码
+git clone https://github.com/remyzane/vscode-zh-completion.git
 
+# 准备依赖库（bpmn-js）
+cd ..
 git clone https://github.com/remyzane/bpmn-js.git
-
 cd bpmn-js
-
 git checkout chinese
 
-pn link
+cd ../vscode-zh-bpmn
 
-cd vscode-zh-bpmn
-
-# 安装依赖包
-pn install
-
-pn link bpmn-js
+# 依赖库（../bpmn-js/bpmn-js.tgz）已添加到 package.json
+# pnpm add file:../bpmn-js/bpmn-js.tgz
 ```
 
 ### 调试插件
@@ -34,11 +32,13 @@ pn link bpmn-js
 ### 生成插件
 
 ```bash
-# 安装打包环境
+# 安装打包环境（如果未安装）
 npm install -g vsce
 
+pnpm install
+
 # 生成插件
-vsce package --no-dependencies
+vsce package --no-dependencies --baseImagesUrl https://gitee.com/remyzane/vscode-zh-bpmn/raw/main
 
 # 发布插件
 ./publish.sh
