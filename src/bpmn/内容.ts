@@ -8,6 +8,53 @@ export const 中文翻译模块 = {
     translate: ['value', 中文翻译]
 };
 
+class 添加文本标注按钮到左侧工具栏 {
+    private _palette: any;
+    private _create: any;
+    private _elementFactory: any;
+
+    constructor(palette: any, create: any, elementFactory: any) {
+        this._palette = palette;
+        this._create = create;
+        this._elementFactory = elementFactory;
+
+        // 注册 provider
+        palette.registerProvider(this);
+    }
+
+    getPaletteEntries() {
+        const create = this._create;
+        const elementFactory = this._elementFactory;
+
+        function createTextAnnotation(event: any) {
+            const shape = elementFactory.createShape({
+                type: 'bpmn:TextAnnotation'
+            });
+
+            create.start(event, shape);
+        }
+
+        return {
+            'create.text-annotation': {
+                group: 'tools',
+                className: 'bpmn-icon-text-annotation',
+                title: '添加文本标注',
+                action: {
+                    click: createTextAnnotation,
+                    dragstart: createTextAnnotation
+                }
+            }
+        };
+    }
+}
+
+(添加文本标注按钮到左侧工具栏 as any).$inject = ['palette', 'create', 'elementFactory'];
+
+export const 文本标注按钮模块 = {
+    __init__: ['textAnnotationPaletteProvider'],
+    textAnnotationPaletteProvider: ['type', 添加文本标注按钮到左侧工具栏]
+};
+
 // 配置完整的模型器选项，包括所有必要的模块
 const modelerOptions: any = {
     container: '#canvas',
@@ -15,6 +62,7 @@ const modelerOptions: any = {
         BpmnColorPickerModule,
         中文翻译模块,
         NativeCopyPasteModule,
+        文本标注按钮模块,
     ],
 };
 
