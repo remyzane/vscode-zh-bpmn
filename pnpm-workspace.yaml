@@ -1,5 +1,2 @@
 onlyBuiltDependencies:
   - esbuild@0.27.3
-
-overrides:
-  bpmn-js: link:../../Library/pnpm/global/5/node_modules/bpmn-js
