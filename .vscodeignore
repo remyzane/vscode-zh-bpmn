@@ -1,7 +1,6 @@
 .vscode/**
 .vscode-test/**
 out/**
-!out/bpmn/**
 node_modules/**
 src/**
 .gitignore
@@ -13,6 +12,11 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 **/.vscode-test.*
+
+# 选择性包含需要的文件（不要包含 *.map）
+!out/bpmn/*.js
+!out/bpmn/*.css
+!out/bpmn/bpmn-*
 
 tmp/**
 样例/**
