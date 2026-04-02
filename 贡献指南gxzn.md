@@ -22,7 +22,17 @@ git checkout chinese
 cd ../vscode-zh-bpmn
 
 # 依赖库（../bpmn-js/bpmn-js.tgz）已添加到 package.json
-# pnpm add file:../bpmn-js/bpmn-js.tgz
+# pnpm add file:../bpmn-js/bpmn-js-18.14.0.tgz
+# 找到 bpmn-js-*.tgz 中版本号最高的文件（按自然版本排序）
+latest=$(ls ../bpmn-js/bpmn-js-*.tgz | sort -V | tail -n1)
+pnpm add "file:$latest"
+```
+
+### 安装/更新依赖库
+
+```bash
+# 找到 bpmn-js-*.tgz 中版本号最高的文件（按自然版本排序）
+pnpm add "file:$(ls ../bpmn-js/bpmn-js-*.tgz | sort -V | tail -n1)"
 ```
 
 ### 调试插件
@@ -35,6 +45,7 @@ cd ../vscode-zh-bpmn
 # 安装打包环境（如果未安装）
 npm install -g vsce
 
+pnpm add "file:$(ls ../bpmn-js/bpmn-js-*.tgz | sort -V | tail -n1)"
 pnpm install
 
 # 生成插件
