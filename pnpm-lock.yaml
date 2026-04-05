@@ -460,7 +460,7 @@ packages:
       bpmn-js: '>= 18.10.0'
 
   bpmn-js@file:../bpmn-js/bpmn-js-18.14.0.tgz:
-    resolution: {integrity: sha512-9cupR1UlxKU7bngVVouMJXqOLWBJDmXEjuOyE5UmV/cyaI/sB89kGSjMQxIDiz/cx8jBQlIwQPv3KjdivCXsNg==, tarball: file:../bpmn-js/bpmn-js-18.14.0.tgz}
+    resolution: {integrity: sha512-EhnKIVYX8YvrglH0IS74X9PXIhnf6GyFM8UnipqLKQd6iJblO1JSOkcKEbA7S3wPT0nViZxxa+1aiW79stYI4w==, tarball: file:../bpmn-js/bpmn-js-18.14.0.tgz}
     version: 18.14.0
 
   bpmn-moddle@10.0.0:
@@ -616,8 +616,9 @@ packages:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
 
-  diagram-js-direct-editing@3.3.0:
-    resolution: {integrity: sha512-EjXYb35J3qBU8lLz5U81hn7wNykVmF7U5DXZ7BvPok2IX7rmPz+ZyaI5AEMiqaC6lpSnHqPxFcPgKEiJcAiv5w==}
+  diagram-js-direct-editing@file:../diagram-js-direct-editing/diagram-js-direct-editing-3.3.0.tgz:
+    resolution: {integrity: sha512-9BvSw+ElQx4LQuSBuoNiatv/ap5YQDVleKOoY23Vuuh7lHBHdz/gQY8543/tkIG1f8MNBqJAAZokBGj8vxQjsA==, tarball: file:../diagram-js-direct-editing/diagram-js-direct-editing-3.3.0.tgz}
+    version: 3.3.0
     peerDependencies:
       diagram-js: '*'
 
@@ -2076,7 +2077,7 @@ snapshots:
     dependencies:
       bpmn-moddle: 10.0.0
       diagram-js: 15.11.0
-      diagram-js-direct-editing: 3.3.0(diagram-js@15.11.0)
+      diagram-js-direct-editing: file:../diagram-js-direct-editing/diagram-js-direct-editing-3.3.0.tgz(diagram-js@15.11.0)
       ids: 3.0.2
       inherits-browser: 0.1.0
       min-dash: 5.0.0
@@ -2258,7 +2259,7 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
-  diagram-js-direct-editing@3.3.0(diagram-js@15.11.0):
+  diagram-js-direct-editing@file:../diagram-js-direct-editing/diagram-js-direct-editing-3.3.0.tgz(diagram-js@15.11.0):
     dependencies:
       diagram-js: 15.11.0
       min-dash: 5.0.0
